@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>高阶函数</title>
+</head>
+<style>
+    div {
+        width: 100%;
+        height: 20px;
+        margin-top: 10px;
+    }
+</style>
+<body>
+<div>
+
+</div>
+</body>
+<script>
+    // 高阶函数是指至少满足下列条件之一的函数。
+    // 1,函数可以作为参数被传递;
+    // 2,函数可以作为返回值输出。
+
+    // 1,函数可以作为参数被传递;
+    // 把函数当作参数传递，这代表我们可以抽离出一部分容易变化的业务逻辑，把这部分业务逻辑放在函数参数中，这样一来可以分离业务代码中变化与不变的部分。其中一个重要应用场景就 是常见的回调函数。
+
+    // 回调函数是被动执行的 主线程代码执行完以后 解释器会自动开始执行回调函数
+
+    // 回调函数的应用不仅只在异步请求中，当一个函数不适合执行一些请求时，我们也可以把这 些请求封装成一个函数，并把它作为参数传递给另外一个函数，“委托”给另外一个函数来执行。
+
+    // 种编写代码的方式:我们想在页面中创建 100 个 div 节点，然后把这些 div 节点都设置为隐藏。下面是一种编写代码的方式:
+    // var appendDiv = function (total) {
+    //     for (var i=0;i< total; i++) {
+    //         var div = document.createElement('div')
+    //         div.innerHTML = i
+    //         document.body.appendChild(div)
+    //         div.style.display = 'none'
+    //     }
+    // }
+    //
+    // appendDiv(100)
+
+    // 把 div.style.display = 'none'的逻辑硬编码在 appendDiv 里显然是不合理的，appendDiv 未免有点个性化，成为了一个难以复用的函数，并不是每个人创建了节点之后就希望它们立刻被隐藏。
+    // 于是我们把 div.style.display = 'none'这行代码抽出来，用回调函数的形式传入 appendDiv 方法:
+    // var appendDiv1 = function (total, callback) {
+    //     for (var i=0;i< total; i++) {
+    //         var div = document.createElement('div')
+    //         div.innerHTML = i
+    //         document.body.appendChild(div)
+    //         if (typeof callback === 'function') {
+    //             console.log('我被执行了')
+    //             callback(div)
+    //         }
+    //     }
+    // }
+    //
+    // var getRandomColor = function(){
+    //     return '#'+(function(h){
+    //
+    //         return new Array(7-h.length).join("0")+h
+    //
+    //     })((Math.random()*0x1000000<<0).toString(16))
+    // }
+    //
+    // appendDiv1(10, function (node) {
+    //     node.style.backgroundColor = getRandomColor()
+    // })
+
+
+    // 函数作为返回值输出
+    // 1. 判断数据的类型
+    // var isString = function (obj) {
+    //     return Object.prototype.toString.call(obj) === '[object String]'
+    // }
+    // var isArray = function (obj) {
+    //     return Object.prototype.toString.call(obj) === '[object Array]'
+    // }
+    // var isNumber = function (obj) {
+    //     return Object.prototype.toString.call(obj) === '[object Number]'
+    // }
+
+    // 我们发现，这些函数的大部分实现都是相同的，不同的只是 Object.prototype.toString. call( obj )返回的字符串。为了避免多余的代码，我们尝试把这些字符串作为参数提前值入 isType 函数。代码如下:
+    // var isType = function (type) {
+    //     return function (obj) {
+    //         return Object.prototype.toString.call(obj) === '[object ' + type + ']'
+    //     }
+    // }
+    //
+    // var isString = isType('String')
+    // var isArray = isType('Array')
+    // var isNumber = isType('Number')
+    // console.log(isArray([1, 2, 3]))
+
+    // 我们还可以用循环语句，来批量注册这些 isType 函数:
+    // var typeObj = {}
+    // var typeArr = ['String', 'Number', 'Boolean', 'Function', 'Array', 'Object']
+    // for (var i= 0 ,type; type = typeArr[ i++ ];) {
+    //     (function(type) {
+    //         // console.log(type)
+    //         typeObj['is' + type] = function (obj) {
+    //             return Object.prototype.toString.call( obj ) === '[object '+ type +']'
+    //         }
+    //     })(type)
+    // }
+    //
+    // console.log(typeObj.isArray([]))
+
+
+    // 下面是一个单例模式的例子，在第三部分设计模式的学习中，我们将进行更深入的讲解，这里暂且只了解其代码实现:
+    // var getSingle = function (fn) {
+    //     var ret = null;
+    //     return function () {
+    //         return ret || (ret = fn.apply(this, arguments))
+    //     }
+    // }
+    //
+    // var getScript = getSingle(function () {
+    //     return document.createElement( 'script' )
+    // })
+    //
+    // var script1 = getScript()
+    // var script2 = getScript()
+    //
+    // console.log((script1 === script2))
+
+
+    // 高阶函数的其他应用
+    // currying 又称部分求值。一个 currying 的函数首先会接受一些参数，接受了这些参数之后， 该函数并不会立即求值，而是继续返回另外一个函数，刚才传入的参数在函数形成的闭包中被保 存起来。待到函数被真正需要求值的时候，之前传入的所有参数都会被一次性用于求值。
+
+</script>
+</html>
