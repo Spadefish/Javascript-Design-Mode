@@ -10,7 +10,8 @@
     "build": "node build/build.js"
   },
   "dependencies": {
-    "vue": "^2.5.2"
+    "vue": "^2.5.2",
+    "vue-infinite-scroll": "^2.0.2"
   },
   "devDependencies": {
     "async-validator": "^3.2.1",

@@ -35,7 +35,7 @@
             this._data = options.data
             // observe(this._data, options.render)
             _proxy.call(this, options.data)
-            observe(options.data, options.render)
+            observe(this._data, options.render)
         }
     }
 
@@ -97,6 +97,6 @@
     })
     obj.a = 100
     console.log(obj)  // {a: 100}
-
+    console.log(bValue)  // 100
 </script>
 </html>

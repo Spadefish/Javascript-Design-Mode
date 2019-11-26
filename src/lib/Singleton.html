@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Singleton单例模式学习</title>
+</head>
+<body>
+<div>
+
+</div>
+</body>
+<script>
+    class Singleton {
+        constructor(data) {
+            if (Singleton.prototype.Instance === undefined) {
+                this.data = data
+                Singleton.prototype.Instance = this
+            }
+            return Singleton.prototype.Instance
+        }
+    }
+
+    let ob1 = new Singleton('one')
+    let ob2 = new Singleton('two')
+    let ob3 = new Singleton('three')
+
+    console.log(ob1 === ob2)
+    console.log(ob2 === ob3)
+    console.log(ob2 === ob1.__proto__.Instance)
+
+    console.log(ob1)
+    console.log(ob2)
+    console.log(ob3)
+
+
+    /*
+        es5 实现的惰性单例模式
+        用参数fn的形式传入 getSingle，我们不仅可以传入 createLoginLayer，还能传入 createScript、createIframe、createXhr 等。之后再让 getSingle 返回 一个新的函数，并且用一个变量 result 来保存 fn 的计算结果，result 变量因为身在闭包中，它永远不会被销毁。在将来的请求中，如果result已经被赋值，那么它将返回这个值
+     */
+    var getSingle = function (fn) {
+        var result
+        return function () {
+            return result || (result = fn.apply(this, arguments))
+        }
+    }
+</script>
+</html>
